@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2015 by AverageMarcus (http://jsbin.com/yomemi/2/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <meta charset="utf-8">
+  <title>D3 Examples</title>
+</head>
+<body>
+ <h3>Random sized circles</h3>
+<script id="jsbin-javascript">
+var dataset = [];
+
+for(var i=0; i<8; i++){
+  dataset.push(Math.round(Math.random() * 10));
+}
+
+var height = 100;
+var width = 500;
+
+var svg = d3.select("body")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+svg.selectAll("circle")
+  .data(dataset)
+  .enter()
+  .append("circle")
+  .attr("cx", function(d, i) {
+    return (i*50) + 25;
+  })
+  .attr("cy", height/2)
+  .attr("r", function(d) {
+    return d*2;
+  })
+  .attr("fill", "red")
+  .attr("stroke", "black")
+  .attr("stroke-width", function(d) {
+    return d/2;
+  })
+  ;
+</script>
+</body>
+</html>
