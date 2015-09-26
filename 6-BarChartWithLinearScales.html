@@ -35,7 +35,7 @@ var scale = d3.scale.linear()
   ;
 var colorScale = d3.scale.linear()
   .domain([0,maxVal])
-  .range([0,255])
+  .rangeRound([0,255])
   ;
 
 var svg = d3.select("body")
@@ -55,7 +55,7 @@ svg.selectAll("rect")
     y: function(d) { return height - scale(d); },
     width: width / dataset.length - barPadding,
     height: function(d) { return scale(d); },
-    fill: function(d) { return "rgb("+Math.round(colorScale(d))+",0,100)"; }
+    fill: function(d) { return "rgb("+colorScale(d)+",0,100)"; }
   })
   ;
 
