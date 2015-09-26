@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2015 by AverageMarcus (http://jsbin.com/qepafo/3/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <meta charset="utf-8">
+  <title>D3 Examples</title>
+</head>
+<body>
+ <h3>Scatterplot (with labels)</h3>
+<script id="jsbin-javascript">
+var dataset = [];
+
+for(var i=0; i<20; i++){
+ var x = Math.round(Math.random() * 500);
+ var y = Math.round(Math.random() * 200);
+ var r = Math.ceil(Math.random() * 300);
+ dataset.push([x,y,r]);
+}
+
+var height = 200;
+var width = 500;
+
+var svg = d3.select("body")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .style("border-left", "2px solid black")
+  .style("border-bottom", "2px solid black")
+  ;
+
+svg.selectAll("circle")
+  .data(dataset)
+  .enter()
+  .append("circle")
+  .attr({
+    cx: function(d) { return d[0]; },
+    cy: function(d) { return d[1]; },
+    r: function(d) { return Math.sqrt(d[2] / Math.PI); },
+    fill: "hotpink"
+  })
+  ;
+
+svg.selectAll("text")
+  .data(dataset)
+  .enter()
+  .append("text")
+  .attr({
+    x: function(d) { return d[0]; },
+    y: function(d) { return d[1]; },
+    fill: "black",
+    "font-family": "sans-serif",
+    "font-size": 10
+  })
+  .text(function(d) { return d[0] + "," + d[1]; })
+  ;
+
+</script>
+</body>
+</html>
