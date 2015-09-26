@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2015 by AverageMarcus (http://jsbin.com/xezubi/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <meta charset="utf-8">
+  <title>D3 Examples</title>
+</head>
+<body>
+ <h3>Scales</h3>
+<script id="jsbin-javascript">
+var dataset = [];
+
+for(var i=0;i<20;i++){
+ dataset.push(Math.round(Math.random()*1000));
+}
+
+var height = 200;
+var width = 600;
+var barPadding = 1;
+
+var maxVal = d3.max(dataset, function(d) { return d; });
+
+var scale = d3.scale.linear()
+  .domain([0,maxVal])
+  .range([0,height-10])
+  ;
+var colorScale = d3.scale.category10()
+  .domain([0,maxVal])
+  ;
+
+var svg = d3.select("body")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .style("border-left", "2px solid black")
+  .style("border-bottom", "2px solid black")
+  ;
+
+svg.selectAll("rect")
+  .data(dataset)
+  .enter()
+  .append("rect")
+  .attr({
+    x: function(d, i) { return i * (width / dataset.length); },
+    y: function(d) { return height - scale(d); },
+    width: width / dataset.length - barPadding,
+    height: function(d) { return scale(d); },
+    fill: function(d) { return colorScale(d); }
+  })
+  ;
+
+svg.selectAll("text")
+  .data(dataset)
+  .enter()
+  .append("text")
+  .attr({
+    x: function(d, i) { return i * (width / dataset.length) + ((width / dataset.length - barPadding) / 2); },
+    y: function(d) { return height - scale(d) - 2; },
+    "text-anchor": "middle",
+    "font-family": "sans-serif",
+    "font-size": 11,
+    "font-weight": "bold"
+  })
+  .text(function(d) {
+    return d;
+  })
+  ;
+</script>
+</body>
+</html>
