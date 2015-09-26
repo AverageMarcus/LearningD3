@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2015 by AverageMarcus (http://jsbin.com/qepafo/4/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <meta charset="utf-8">
+  <title>D3 Examples</title>
+<style id="jsbin-css">
+.axis path,
+.axis line {
+ fill: none;
+ stroke: black;
+ shape-rendering: crispEdges;
+}
+
+.axis text {
+ font-family: sans-serif;
+ font-size: 11px;
+}
+</style>
+</head>
+<body>
+ <h3>Scatterplot (with axes)</h3>
+<script id="jsbin-javascript">
+var dataset = [];
+
+for(var i=0; i<20; i++){
+ var x = Math.round(Math.random() * 500);
+ var y = Math.round(Math.random() * 500);
+ var r = Math.ceil(Math.random() * 500);
+ dataset.push([x,y,r]);
+}
+
+/* Globals */
+var height = 200;
+var width = 500;
+var padding = [30, 20];
+
+/* Scales */
+var xScale = d3.scale.linear()
+  .domain([0,d3.max(dataset, function(d) { return d[0]; } )])
+  .range([padding[0], width-padding[0]])
+  ;
+var yScale = d3.scale.linear()
+  .domain([0,d3.max(dataset, function(d) { return d[1]; } )])
+  .range([height-padding[1],padding[1]])
+  ;
+var rScale = d3.scale.linear()
+  .domain([0,d3.max(dataset, function(d) { return d[2]; } )])
+  .range([3, 15])
+  ;
+
+/* Axes */
+var xAxis = d3.svg.axis()
+  .scale(xScale)
+  .orient("bottom")
+  .ticks(8)
+  ;
+var yAxis = d3.svg.axis()
+  .scale(yScale)
+  .orient("left")
+  .ticks(6)
+  ;
+
+/* Business */
+var svg = d3.select("body")
+  .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  ;
+
+svg.selectAll("circle.main")
+  .data(dataset)
+  .enter()
+  .append("circle")
+  .attr({
+    class: "main",
+    cx: function(d) { return xScale(d[0]); },
+    cy: function(d) { return yScale(d[1]); },
+    r: function(d) { return rScale(d[2]); },
+    fill: "hotpink",
+    stroke: "rgba(255,255,255,.3)"
+  })
+  ;
+
+svg.selectAll("circle.pinpoint")
+  .data(dataset)
+  .enter()
+  .append("circle")
+  .attr({
+    class: "pinpoint",
+    cx: function(d) { return xScale(d[0]); },
+    cy: function(d) { return yScale(d[1]); },
+    r: 2,
+    fill: "rgba(0,0,0,.3)"
+  })
+  ;
+
+/* Order matters - Add this after any data binding to <text> elements */
+svg.append("g")
+  .attr("class", "axis")
+  .attr("transform", "translate(0," + (height - padding[1]) + ")") // This is being drawn on the 'y' axis so use the y padding
+  .call(xAxis)
+  ;
+svg.append("g")
+  .attr("class", "axis")
+  .attr("transform", "translate(" + padding[0] + ",0)") // This is being drawn on the 'x' axis so use the x padding
+  .call(yAxis)
+  ;
+</script>
+</body>
+</html>
