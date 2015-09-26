@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2015 by AverageMarcus (http://jsbin.com/mojifi/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <meta charset="utf-8">
+  <title>D3 Examples</title>
+</head>
+<body>
+ <h3>Random sized bar chart (SVG)</h3>
+<script id="jsbin-javascript">
+var dataset = [];
+
+for(var i=0; i<10; i++){
+  dataset.push(Math.round(Math.random() * 100));
+}
+
+var height = 100;
+var width = 500;
+var barPadding = 1;
+
+var svg = d3.select("body")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+svg.selectAll("rect")
+  .data(dataset)
+  .enter()
+  .append("rect")
+  .attr({
+    x: function(d, i) { return i * (width / dataset.length); },
+    y: function(d) { return height - d; },
+    width: width / dataset.length - barPadding,
+    height: function(d) { return d; },
+    fill: function(d) { return "rgb(0,"+d+",100)"; }
+  })
+  ;
+</script>
+</body>
+</html>
